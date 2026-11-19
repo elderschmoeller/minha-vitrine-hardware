@@ -1,0 +1,14 @@
+# Arquivos temporários do Google Drive/OneDrive
+.tmp.driveupload/
+*.tmp
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos de backup locais
+vitrine-backup.json
+
+# Node modules (caso use no futuro)
+node_modules/
