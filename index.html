@@ -181,6 +181,13 @@
   .toast.error { border-left: 4px solid var(--danger); }
   .toast.warning { border-left: 4px solid var(--warning); }
   
+  .backup-list { max-height: 400px; overflow-y: auto; }
+  .backup-item { background: var(--bg-primary); border: 1px solid var(--border); border-radius: 8px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+  .backup-item-info { flex: 1; }
+  .backup-item-date { font-weight: 600; color: var(--text-primary); }
+  .backup-item-count { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+  .backup-item-actions { display: flex; gap: 8px; }
+  
   @media (max-width: 768px) {
     header h1 { font-size: 1.8rem; }
     .theme-selector { position: static; margin-top: 15px; justify-content: center; }
@@ -211,7 +218,8 @@
     </div>
     <span class="cloud-info" id="cloudInfo">Configure o GitHub para sincronizar</span>
     <button class="btn btn-success" id="connectCloudBtn" onclick="openCloudSettings()">☁️ Configurar Nuvem</button>
-    <button class="btn btn-secondary" id="syncCloudBtn" onclick="syncToCloud()" disabled>🔄 Sincronizar</button>
+    <button class="btn btn-secondary" id="syncCloudBtn" onclick="syncToCloud()" disabled>📤 Enviar (upload)</button>
+    <button class="btn btn-secondary" id="loadCloudBtn" onclick="loadFromCloud()" disabled>📥 Baixar (download)</button>
     <button class="btn btn-warning btn-small" id="backupsBtn" onclick="openBackupsModal()" disabled>💾 Backups</button>
   </div>
   
@@ -271,7 +279,6 @@
   <div class="grid" id="grid"></div>
 </div>
 
-<!-- Modal principal -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <h2 id="modalTitle">Adicionar Produto</h2>
@@ -393,7 +400,6 @@
   </div>
 </div>
 
-<!-- Modal de configurações da nuvem -->
 <div class="modal-bg" id="cloudSettingsModal">
   <div class="modal">
     <h2>☁️ Configurar Sincronização com GitHub</h2>
@@ -409,7 +415,7 @@
     <div class="form-group">
       <label for="githubToken">Personal Access Token</label>
       <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxx">
-      <small style="color: var(--text-secondary); font-size: 12px;">Crie em: GitHub → Settings → Developer settings → Personal access tokens</small>
+      <small style="color: var(--text-secondary); font-size: 12px;">Crie em: GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)</small>
     </div>
     <div class="form-group">
       <label for="githubBranch">Branch</label>
@@ -422,7 +428,6 @@
   </div>
 </div>
 
-<!-- Modal de histórico -->
 <div class="modal-bg" id="historyModalBg">
   <div class="modal modal-small">
     <h2 id="historyTitle">📈 Histórico de Preços</h2>
@@ -459,7 +464,6 @@
   </div>
 </div>
 
-<!-- Modal de backups -->
 <div class="modal-bg" id="backupsModal">
   <div class="modal modal-large">
     <h2>💾 Gerenciar Backups</h2>
@@ -493,17 +497,9 @@ document.querySelectorAll('.theme-btn').forEach(btn => {
   btn.classList.toggle('active', btn.dataset.theme === currentTheme);
 });
 
-// ============ HELPERS SEGUROS ============
-function getVal(id) {
-  const el = document.getElementById(id);
-  return el ? el.value : '';
-}
-function setVal(id, value) {
-  const el = document.getElementById(id);
-  if (el) el.value = value || '';
-}
+function getVal(id) { const el = document.getElementById(id); return el ? el.value : ''; }
+function setVal(id, value) { const el = document.getElementById(id); if (el) el.value = value || ''; }
 
-// ============ FORMATAÇÃO DE MOEDA ============
 function formatMoney(input) {
   let value = input.value.replace(/\D/g, '');
   if (!value) { input.value = ''; input.classList.remove('invalid'); return; }
@@ -525,13 +521,8 @@ function formatPriceDisplay(value) {
   return 'R$ ' + Number(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-// ============ DEBOUNCE ============
-function debounceSearch() {
-  clearTimeout(searchTimeout);
-  searchTimeout = setTimeout(render, 300);
-}
+function debounceSearch() { clearTimeout(searchTimeout); searchTimeout = setTimeout(render, 300); }
 
-// ============ TOAST ============
 let toastTimeout = null;
 function showToast(msg, type = 'success') {
   const toast = document.getElementById('toast');
@@ -558,7 +549,6 @@ function setView(view) {
   render();
 }
 
-// ============ BACKUPS ============
 function createBackup() {
   const backup = {
     id: Date.now().toString(),
@@ -574,7 +564,6 @@ function createBackup() {
   console.log('Backup criado:', backup.date);
 }
 
-// ============ CONFIGURAÇÕES DA NUVEM ============
 function openCloudSettings() {
   if (cloudConfig) {
     setVal('githubUsername', cloudConfig.username);
@@ -605,7 +594,7 @@ function saveCloudSettings() {
   cloudConnected = true;
   updateCloudUI();
   closeCloudSettings();
-  showToast('✓ Nuvem configurada! Clique em Sincronizar para enviar seus dados.');
+  showToast('✓ Nuvem configurada! Clique em "📥 Baixar" para carregar seus dados.');
 }
 
 function updateCloudUI() {
@@ -613,6 +602,7 @@ function updateCloudUI() {
   const text = document.getElementById('cloudStatusText');
   const info = document.getElementById('cloudInfo');
   const syncBtn = document.getElementById('syncCloudBtn');
+  const loadBtn = document.getElementById('loadCloudBtn');
   const backupsBtn = document.getElementById('backupsBtn');
   
   if (cloudConnected && cloudConfig) {
@@ -620,31 +610,36 @@ function updateCloudUI() {
     text.textContent = 'Conectado';
     info.textContent = `${cloudConfig.username}/${cloudConfig.repo}`;
     syncBtn.disabled = false;
+    loadBtn.disabled = false;
     backupsBtn.disabled = false;
   } else {
     dot.className = 'cloud-dot';
     text.textContent = 'Desconectado';
     info.textContent = 'Configure o GitHub para sincronizar';
     syncBtn.disabled = true;
+    loadBtn.disabled = true;
     backupsBtn.disabled = true;
   }
 }
 
-// ============ SINCRONIZAÇÃO COM GITHUB ============
 async function syncToCloud() {
   if (!cloudConfig) {
     showToast('Configure a nuvem primeiro', 'error');
     return;
   }
   
+  if (products.length === 0) {
+    showToast('❌ Impossível enviar: você tem 0 produtos. Use "📥 Baixar" primeiro.', 'error');
+    return;
+  }
+  
   try {
     document.getElementById('cloudDot').className = 'cloud-dot syncing';
-    showToast('🔄 Sincronizando...', 'warning');
+    showToast('📤 Enviando para a nuvem...', 'warning');
     
     const { username, repo, token, branch } = cloudConfig;
     const filePath = 'vitrine-data.json';
     
-    // 1. Obter SHA do arquivo atual (se existir)
     let sha = null;
     try {
       const getResponse = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/${filePath}?ref=${branch}`, {
@@ -658,7 +653,6 @@ async function syncToCloud() {
       console.log('Arquivo não existe ainda, criando novo');
     }
     
-    // 2. Preparar dados
     const syncData = {
       lastSync: Date.now(),
       lastSyncDate: new Date().toISOString(),
@@ -666,9 +660,8 @@ async function syncToCloud() {
     };
     const content = btoa(unescape(encodeURIComponent(JSON.stringify(syncData, null, 2))));
     
-    // 3. Upload/Update
     const body = {
-      message: `Sync: ${new Date().toISOString()}`,
+      message: `Sync: ${new Date().toISOString()} - ${products.length} produtos`,
       content: content,
       branch: branch
     };
@@ -691,7 +684,7 @@ async function syncToCloud() {
     lastSyncTime = Date.now();
     localStorage.setItem('lastSyncTime', lastSyncTime);
     document.getElementById('cloudDot').className = 'cloud-dot connected';
-    showToast('✓ Sincronizado com GitHub!');
+    showToast(`✓ Enviado! ${products.length} produtos salvos na nuvem.`);
     console.log('Sincronização concluída');
     
   } catch (e) {
@@ -708,6 +701,9 @@ async function loadFromCloud() {
   }
   
   try {
+    document.getElementById('cloudDot').className = 'cloud-dot syncing';
+    showToast('📥 Carregando da nuvem...', 'warning');
+    
     const { username, repo, token, branch } = cloudConfig;
     const filePath = 'vitrine-data.json';
     
@@ -717,7 +713,8 @@ async function loadFromCloud() {
     
     if (!response.ok) {
       if (response.status === 404) {
-        showToast('Nenhum dado na nuvem ainda', 'warning');
+        showToast('⚠️ Nenhum dado encontrado na nuvem. Adicione produtos e envie primeiro.', 'warning');
+        document.getElementById('cloudDot').className = 'cloud-dot connected';
         return;
       }
       throw new Error('Erro ao carregar');
@@ -728,23 +725,29 @@ async function loadFromCloud() {
     const syncData = JSON.parse(content);
     
     if (syncData.products && Array.isArray(syncData.products)) {
-      if (confirm(`Carregar ${syncData.products.length} produtos da nuvem? Isso substituirá os dados locais.`)) {
-        createBackup();
-        products = syncData.products;
-        localStorage.setItem('vitrineProdutos', JSON.stringify(products));
-        lastSyncTime = syncData.lastSync || Date.now();
-        localStorage.setItem('lastSyncTime', lastSyncTime);
-        render();
-        showToast('✓ Dados carregados da nuvem!');
+      if (products.length > 0) {
+        if (!confirm(`⚠️ Você tem ${products.length} produtos locais. Carregar da nuvem vai SUBSTITUIR por ${syncData.products.length} produtos. Continuar?`)) {
+          document.getElementById('cloudDot').className = 'cloud-dot connected';
+          return;
+        }
       }
+      
+      createBackup();
+      products = syncData.products;
+      localStorage.setItem('vitrineProdutos', JSON.stringify(products));
+      lastSyncTime = syncData.lastSync || Date.now();
+      localStorage.setItem('lastSyncTime', lastSyncTime);
+      render();
+      document.getElementById('cloudDot').className = 'cloud-dot connected';
+      showToast(`✓ Carregado! ${products.length} produtos da nuvem.`);
     }
   } catch (e) {
     console.error('Erro ao carregar:', e);
+    document.getElementById('cloudDot').className = 'cloud-dot';
     showToast('❌ Erro: ' + e.message, 'error');
   }
 }
 
-// Auto-load da nuvem ao iniciar
 async function autoLoadFromCloud() {
   if (!cloudConfig) return;
   
@@ -761,13 +764,25 @@ async function autoLoadFromCloud() {
       const content = decodeURIComponent(escape(atob(data.content)));
       const syncData = JSON.parse(content);
       
-      if (syncData.products && syncData.lastSync > lastSyncTime) {
-        if (confirm(`Dados mais recentes encontrados na nuvem (${syncData.products.length} produtos). Carregar?`)) {
+      if (syncData.products && Array.isArray(syncData.products) && syncData.products.length > 0) {
+        if (products.length === 0) {
           products = syncData.products;
           localStorage.setItem('vitrineProdutos', JSON.stringify(products));
-          lastSyncTime = syncData.lastSync;
+          lastSyncTime = syncData.lastSync || Date.now();
           localStorage.setItem('lastSyncTime', lastSyncTime);
           render();
+          showToast(`📦 ${products.length} produtos carregados automaticamente da nuvem!`);
+        }
+        else if (syncData.lastSync > lastSyncTime) {
+          if (confirm(`📦 Dados mais recentes na nuvem (${syncData.products.length} produtos). Carregar?`)) {
+            createBackup();
+            products = syncData.products;
+            localStorage.setItem('vitrineProdutos', JSON.stringify(products));
+            lastSyncTime = syncData.lastSync;
+            localStorage.setItem('lastSyncTime', lastSyncTime);
+            render();
+            showToast('✓ Dados atualizados da nuvem!');
+          }
         }
       }
     }
@@ -778,10 +793,6 @@ async function autoLoadFromCloud() {
 
 function save() { 
   localStorage.setItem('vitrineProdutos', JSON.stringify(products));
-  // Auto-sync se conectado
-  if (cloudConnected && cloudConfig) {
-    setTimeout(() => syncToCloud(), 1000);
-  }
 }
 
 function getUniqueStores() {
@@ -1209,7 +1220,6 @@ function renderHistoryChart(product) {
   svg.innerHTML = `${yLabels}${xLabels}${targetLine}<path d="${linePath}" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>${circles}`;
 }
 
-// ============ MODAL DE BACKUPS ============
 function openBackupsModal() {
   const backups = JSON.parse(localStorage.getItem('backups') || '[]');
   const listEl = document.getElementById('backupList');
@@ -1320,7 +1330,6 @@ document.addEventListener('keydown', e => {
 document.getElementById('gridViewBtn').classList.toggle('active', currentView === 'grid');
 document.getElementById('listViewBtn').classList.toggle('active', currentView === 'list');
 
-// Inicialização
 if (cloudConfig) {
   cloudConnected = true;
   updateCloudUI();
