@@ -1,7 +1,29 @@
 {
-  "lastSync": 1795048695132,
-  "lastSyncDate": "2026-11-19T00:38:15.132Z",
+  "lastSync": 1795048892808,
+  "lastSyncDate": "2026-11-19T00:41:32.808Z",
   "products": [
+    {
+      "id": "1795048891429",
+      "name": "Placa de Vídeo RX 7600 Challenger ASRock AMD Radeon, 8GB GDDR6 - 90-GA41ZZ-00UANF",
+      "category": "Hardware",
+      "store": "KaBuM!",
+      "color": "",
+      "image": "https://images.kabum.com.br/produtos/fotos/459144/placa-de-video-rx-7600-challenger-asrock-amd-radeon-8gb-gddr6-90-ga41zz-00uanf_1685551526_gg.jpg",
+      "pricePix": "1.899,99",
+      "priceCredit": "2.235,28",
+      "targetPricePix": "1.700,00",
+      "installments": "10",
+      "availability": "yes",
+      "priority": "dream",
+      "size": "Único",
+      "material": "Plástico, Metal",
+      "specs": "Informações Técnicas\nCaracterísticas:\n\n- Marca: ASRock\n\n- Modelo: 90-GA41ZZ-00UANF\n\n \n\nEspecificações:\n\n \n\nProcessador Gráfico:\n\n- AMD Radeon RX 7600\n\n \n\nPadrão de Ônibus:\n\n- PCI Express 4.0 x8\n\n \n\nDirectX:\n\n- 12 finais\n\n \n\nOpenGLGenericName:\n\n- 4.6\n\n \n\nMemória:\n\n- 8GB GDDR6\n\n- Clock de memória: 18 Gbps\n\n- Interface de Memória: 128 bits\n\n \n\nClock do processador:\n\n- Clock Melhorado: Até 2695 MHz\n\n- Relógio de Jogo: 2280 MHz\n\n- Clock Base: 1770 MHz\n\n \n\nProcessadores de fluxo:\n\n- 2048\n\n \n\nResolução:\n\n- Resolução Digital Máxima: 7680 x 4320\n\n \n\nInterface\n\n- 1 x HDMI 2.1 (Até FRL 10Gbps)\n\n- 3 x DisplayPort 1.4a com DSC (Até HBR3 8.1Gbps)\n\n \n\nHDCP:\n\n- Sim\n\n \n\nMultivisualização:\n\n- 4\n\n \n\nPSU recomendado:\n\n- 550W\n\n \n\nConector de força:\n\n- 1 x 8-pinos\n\n \n\nAcessórios:\n\n- 1 x Guia de Instalação Rápida\n\n \n\nDimensões:\n\n- 269,2 x 131,8 x 40,3 mm\n\n \n\nExtras:\n\n- DirectX 12 Ultimate\n\n- D DESIGN COM VENTOÍNHA DUPLA\n\n- Espelho Traseiro Elegante em Metal\n\n- Striped Axial Fan\n\n- Ultra-fit Heatpipe\n\n- Resfriamento Silencioso 0dB\n\n- Super Alloy Graphics Card\n\n \n\nConteúdo da Embalagem:\n\n- Placa de Vídeo RX7600 CL 8GO\n\nGarantia:\n\n1 ano de garantia (3 meses de garantia legal + 9 meses de garantia contratual junto ao fabricante)\n\nPeso:\n\n960 gramas (bruto com embalagem)",
+      "note": "A mais custo x benefício do mercado, preciso muito trocar a minha 570, e preciso trocar logo se não em 2027 eu com certeza irei pagar uns 400-500 reais a mais na mesma placa.",
+      "link": "https://www.kabum.com.br/produto/459144/placa-de-video-rx-7600-challenger-asrock-amd-radeon-8gb-gddr6-90-ga41zz-00uanf?gclsrc=aw.ds&&utm_id=22429436057&gad_source=1&gad_campaignid=22429436057&gbraid=0AAAAADx-HyGALeMnvc6BkVjqKd9i7sJ4K&gclid=Cj0KCQiAk_DXBhCoARIsAHE-omOXdNwD8LaBl61Im8MzJR2ETBT9mD3heG9067Pu9qu4SwMnzlAvbg0aAq8xEALw_wcB",
+      "priceHistory": [],
+      "createdAt": 1795048891429,
+      "updatedAt": 1795048891429
+    },
     {
       "id": "1795048693179",
       "name": "Cadeira Ergonômica Comfy Stance Ultra Tela Mesh Preta, Assento Slide, Braços 4D, Relax Avançado",
