@@ -1,7 +1,29 @@
 {
-  "lastSync": 1795048892808,
-  "lastSyncDate": "2026-11-19T00:41:32.808Z",
+  "lastSync": 1795049121498,
+  "lastSyncDate": "2026-11-19T00:45:21.498Z",
   "products": [
+    {
+      "id": "1795049119646",
+      "name": "Teclado Mecânico Gamer Attack Shark X66, 65% Compacto, RGB, Moonlight, Cinza/Branco - AS-X66-MN-LG",
+      "category": "Teclado",
+      "store": "KaBuM!",
+      "color": "",
+      "image": "https://images.kabum.com.br/produtos/fotos/904373/teclado-mecanico-gamer-attack-shark-x66-moonlight_1771359787_gg.jpg",
+      "pricePix": "209,99",
+      "priceCredit": "233,32",
+      "targetPricePix": "170,00",
+      "installments": "10",
+      "availability": "yes",
+      "priority": "medium",
+      "size": "60%",
+      "material": "Plástico ABS e PBT",
+      "specs": "Informações Técnicas\nCaracterísticas:\n\n- Marca: Attack Shark\n\n- Modelo: X66 \n\n- Cor: Moonlight\n\n \n\nDestaques:\n\n- Estrutura Gasket Mount com vedação premium\n\n- Isolamento acústico com 5 camadas de absorção\n\n- Knob multifuncional em alumínio CNC\n\n- Sistema Hot-Swap total para troca de switches\n\n- Placa de posicionamento de PC com ranhuras\n\n \n\nEspecificações Técnicas:\n\n- Tipo Teclado Mecânico com Fio\n\n- Estrutura Vedação Gasket\n\n- Isolamento Acústico 5 Camadas de Preenchimento\n\n- Placa de Posicionamento PC com Ranhuras\n\n- PCB Ranhura de 1.2mm\n\n- Hot-Swap Sim compatível com 3 e 5 pinos\n\n- Estabilizadores Teclas Satélite com Ajuste Fino\n\n- Controle Knob Multifuncional CNC\n\n \n\nRecursos e Iluminação:\n\n- LED RGB Cores Vibrantes\n\n- Posicionamento sob o PCB\n\n- Software Driver de Macro Dedicado\n\n- Teclas Programáveis Sim\n\n \n\nConteúdo da Embalagem:\n\n- Teclado Attack Shark X66 Moonlight\n\nGarantia:\n\n1 ano de garantia (3 meses de garantia legal + 9 meses de garantia contratual junto ao fabricante)\n\nPeso:\n\n790 gramas (bruto com embalagem)\n\n",
+      "note": "Teclado bonito com mods de fábrica, keycaps estilosas, knob e se abaixar o preço eu vou comprar. E também vai ser meu primeiro teclado da Attack Shark, acho uma boa oportunidade para conhecer a marca.",
+      "link": "https://www.kabum.com.br/produto/904373/teclado-mecanico-gamer-attack-shark-x66-65-compacto-rgb-moonlight-cinza-branco-as-x66-mn-lg",
+      "priceHistory": [],
+      "createdAt": 1795049119646,
+      "updatedAt": 1795049119646
+    },
     {
       "id": "1795048891429",
       "name": "Placa de Vídeo RX 7600 Challenger ASRock AMD Radeon, 8GB GDDR6 - 90-GA41ZZ-00UANF",
